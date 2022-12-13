@@ -26,21 +26,31 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  String? token;
   @override
   void initState() {
     super.initState();
     // Enable virtual display.
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
+
+    FirebaseMessaging.instance.getToken().then((value) {
+      token = value;
+      print(token);
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: WebView(
-        initialUrl: 'https://app.incphone.com/register',
-        onPageStarted: (url) => print(url),
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
+      child: token == null
+          ? Container()
+          : WebView(
+              initialUrl:
+                  'https://app.incphone.com/register?device_token=' + token!,
+              onPageStarted: (url) => print(url),
+              javascriptMode: JavascriptMode.unrestricted,
+            ),
     );
   }
 }
