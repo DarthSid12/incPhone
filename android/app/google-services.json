@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1096358718405",
+    "project_id": "inc-phone",
+    "storage_bucket": "inc-phone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096358718405:android:e87ffb5e469c0b80ae39ac",
+        "android_client_info": {
+          "package_name": "com.example.inc_phone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096358718405-7ilim3vva3qulr0nharhnrst8qea1kfl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu-gXa2A_Tps978yIYlOMqbBa90accp8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1096358718405-7ilim3vva3qulr0nharhnrst8qea1kfl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
