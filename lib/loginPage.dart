@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_print
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -21,22 +24,22 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    getSecure('10', '20|iPqdjYMy56cSSylPkgbjqWflyFM6fYTNccDsusZd');
+    // getSecure('10', '20|iPqdjYMy56cSSylPkgbjqWflyFM6fYTNccDsusZd');
     initSharedPrefs();
   }
 
   initSharedPrefs() async {
-    // await PusherBeams.instance.clearAllState();
+    // await PusherBeams.instance.clearAllState();   //Uncommenting this line logs you out from pusher.
     prefs = await SharedPreferences.getInstance();
-    token = prefs.getString("token");
-    if (token != null) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MainScreen(
-                    authToken: token!,
-                  )));
-    }
+    // token = prefs.getString("token");
+    // if (token != null) {
+    //   Navigator.pushReplacement(
+    //       context,
+    //       MaterialPageRoute(
+    //           builder: (context) => MainScreen(
+    //                 authToken: token!,
+    //               )));
+    // }
   }
 
   @override
@@ -49,12 +52,23 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(10),
-                  child: const Text(
-                    'TutorialKart',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 30),
+                  child: RichText(
+                    text: const TextSpan(children: [
+                      TextSpan(
+                        text: 'inc',
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 30),
+                      ),
+                      TextSpan(
+                        text: 'Phone',
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 30),
+                      ),
+                    ]),
                   )),
               Container(
                   alignment: Alignment.center,
