@@ -5,9 +5,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:inc_phone/main.dart';
 import 'package:pusher_beams/pusher_beams.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:inc_phone/webView.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,22 +24,21 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // getSecure('10', '20|iPqdjYMy56cSSylPkgbjqWflyFM6fYTNccDsusZd');
     initSharedPrefs();
   }
 
   initSharedPrefs() async {
     // await PusherBeams.instance.clearAllState();   //Uncommenting this line logs you out from pusher.
     prefs = await SharedPreferences.getInstance();
-    // token = prefs.getString("token");
-    // if (token != null) {
-    //   Navigator.pushReplacement(
-    //       context,
-    //       MaterialPageRoute(
-    //           builder: (context) => MainScreen(
-    //                 authToken: token!,
-    //               )));
-    // }
+    token = prefs.getString("token");
+    if (token != null) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MainScreen(
+                    authToken: token!,
+                  )));
+    }
   }
 
   @override
@@ -49,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.all(10),
           child: ListView(
             children: <Widget>[
+              //This is the header widget
               Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(10),
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextField(
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
-                  autofillHints: [AutofillHints.email],
+                  autofillHints: const [AutofillHints.email],
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Email',
@@ -100,22 +100,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  //forgot password screen
-                },
-                child: const Text(
-                  'Forgot Password',
-                ),
-              ),
+              const SizedBox(height: 20),
               Container(
                   height: 50,
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () async {
-                      print(emailController.text);
-                      print(passwordController.text);
                       http.Response response = await http.post(
                           Uri.parse("https://app.incphone.com/sanctum/token"),
                           body: {
@@ -123,8 +114,6 @@ class _LoginPageState extends State<LoginPage> {
                             'device_name': "DarthSid12's device",
                             "password": passwordController.text
                           });
-                      print(response.statusCode);
-                      print(response.body);
                       if (response.statusCode == 200) {
                         String token = jsonDecode(response.body)['token'];
                         String userId =
@@ -132,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
 
                         prefs.setString('token', token);
 
-                        await getSecure(userId, token);
+                        await getSecure(userId, token, context);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -142,54 +131,40 @@ class _LoginPageState extends State<LoginPage> {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           backgroundColor: Colors.red,
-                          content:
-                              Text("Login error:" + response.body.toString()),
+                          content: Text("Login error:${response.body}"),
                         ));
                       }
                     },
                   )),
-              Row(
-                children: <Widget>[
-                  const Text('Does not have account?'),
-                  TextButton(
-                    child: const Text(
-                      'Sign in',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    onPressed: () {
-                      //signup screen
-                    },
-                  )
-                ],
-                mainAxisAlignment: MainAxisAlignment.center,
-              ),
             ],
           )),
     );
   }
 
-  getSecure(String userId, String token) async {
+  getSecure(String userId, String token, BuildContext context) async {
     print(token);
     final BeamsAuthProvider provider = BeamsAuthProvider()
       ..authUrl = 'https://app.incphone.com/pusher/beams-auth'
       ..headers = {
         'Content-Type': 'application/json',
-        'Authorization': "Bearer " + token,
+        'Authorization': "Bearer $token",
       }
       ..queryParams = {
         'page': '1',
       }
       ..credentials = 'omit';
-    print(userId);
     await PusherBeams.instance.setUserId(
         userId,
         provider,
         (error) => {
               if (error != null)
-                {print("Pusher beam error: " + error)}
-              // Success! Do something...
-              else
-                {print("Secure success " + userId)}
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text("Login error:$error")),
+                  )
+                }
             });
   }
 }
