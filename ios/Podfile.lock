@@ -1,0 +1,41 @@
+PODS:
+  - Flutter (1.0.0)
+  - pusher_beams_ios (0.0.1):
+    - Flutter
+    - PushNotifications (~> 4.0)
+  - PushNotifications (4.0.0)
+  - shared_preferences_ios (0.0.1):
+    - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - pusher_beams_ios (from `.symlinks/plugins/pusher_beams_ios/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
+
+SPEC REPOS:
+  trunk:
+    - PushNotifications
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  pusher_beams_ios:
+    :path: ".symlinks/plugins/pusher_beams_ios/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  pusher_beams_ios: 3991e6c6186aa392e2c82687f727ffd5075ea268
+  PushNotifications: 2b2174b28bf48b1fe552686d1f95c53d62a4781d
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
+
+PODFILE CHECKSUM: 7368163408c647b7eb699d0d788ba6718e18fb8d
+
+COCOAPODS: 1.11.3
